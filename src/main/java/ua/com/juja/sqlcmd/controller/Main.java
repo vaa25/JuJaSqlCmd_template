@@ -1,6 +1,9 @@
 package ua.com.juja.sqlcmd.controller;
 
-import ua.com.juja.sqlcmd.controller.command.*;
+import ua.com.juja.sqlcmd.controller.command.Clear;
+import ua.com.juja.sqlcmd.controller.command.Command;
+import ua.com.juja.sqlcmd.controller.command.Exit;
+import ua.com.juja.sqlcmd.controller.command.Help;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.JDBCDatabaseManager;
 import ua.com.juja.sqlcmd.view.Console;
@@ -15,7 +18,7 @@ public class Main {
         View view = new Console();
         DatabaseManager manager = new JDBCDatabaseManager();
 
-        MainController controller = new MainController(view, manager, new Command[] {
+        MainController controller = new MainController(view, manager, new Command[]{
                 new Help(view),
                 new Exit(view),
                 new Clear(manager, view)

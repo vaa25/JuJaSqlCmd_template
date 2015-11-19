@@ -10,13 +10,13 @@ public class SamplePostgresJDBC {
     public static void main(String[] argv) throws ClassNotFoundException, SQLException {
         Class.forName("org.postgresql.Driver");
         Connection connection = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/sqlcmd", "postgres",
-                    "postgres");
+                "jdbc:postgresql://localhost:5432/sqlcmd", "postgres",
+                "postgres");
 
         // insert
         Statement stmt = connection.createStatement();
-        stmt.executeUpdate("INSERT INTO public.user (name, password)" +
-                "VALUES ('Stiven', 'Pupkin')");
+        stmt.executeUpdate("INSERT INTO public.user (id, name, password)" +
+                "VALUES (15, 'Stiven', 'Pupkin')");
         stmt.close();
 
         // select
@@ -28,9 +28,9 @@ public class SamplePostgresJDBC {
             System.out.println("password:" + rs.getString("password"));
             System.out.println("-----");
         }
+
         rs.close();
         stmt.close();
-
         // table names
         stmt = connection.createStatement();
         rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'");
@@ -52,6 +52,7 @@ public class SamplePostgresJDBC {
         String pass = "password_" + new Random().nextInt();
         ps.setString(1, pass);
         ps.executeUpdate();
+        System.out.println(connection.createStatement().executeQuery("SELECT * FROM " + "user").getFetchSize());
         ps.close();
 
         connection.close();
