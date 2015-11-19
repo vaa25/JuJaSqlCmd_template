@@ -2,7 +2,7 @@ package ua.com.juja.sqlcmd.model;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -23,16 +23,16 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public List<DataSet> getTableData(String tableName) {
         List<DataSet> result = new ArrayList<>();
         try {
-            rs = connection.createStatement().executeQuery("SELECT * FROM " + tableName);
+            rs = connection.createStatement().executeQuery("SELECT * FROM public." + tableName);
             int columnSize = rs.getMetaData().getColumnCount();
             while (rs.next()) {
                 DataSet dataSet = new DataSetImpl();
                 for (int i = 0; i < columnSize; i++) {
-                    dataSet.put(rs.getMetaData().getColumnName(i), rs.getObject(i));
+                    dataSet.put(rs.getMetaData().getColumnName(i + 1), rs.getObject(i + 1));
                 }
+                result.add(dataSet);
             }
             rs.close();
-            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
             System.exit(-2);
@@ -59,7 +59,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public Set<String> getTableNames() {
-        Set<String> result = new HashSet<>();
+        Set<String> result = new LinkedHashSet<>();
         try {
             stmt = connection.createStatement();
             rs = stmt.executeQuery("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'");
@@ -89,7 +89,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public void clear(String tableName) {
         try {
             stmt = connection.createStatement();
-            stmt.executeUpdate("DELETE FROM " + tableName);
+            stmt.executeUpdate("DELETE FROM public." + tableName + "");
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -101,7 +101,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public void create(String tableName, DataSet input) {
         try {
             stmt = connection.createStatement();
-            StringBuilder sql = new StringBuilder("INSERT INTO ").append(tableName).append(" (");
+            StringBuilder sql = new StringBuilder("INSERT INTO public.").append(tableName).append(" (");
             StringBuilder names = new StringBuilder();
             StringBuilder values = new StringBuilder(" VALUES (");
             for (String name : input.getNames()) {
@@ -110,7 +110,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
                     values.append(", ");
                 }
                 names.append(name);
-                values.append(input.get(name));
+                values.append("'").append(input.get(name)).append("'");
             }
             names.append(")");
             values.append(")");
@@ -127,16 +127,19 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public void update(String tableName, int id, DataSet newValue) {
         try {
             stmt = connection.createStatement();
-            StringBuilder sql = new StringBuilder("UPDATE ").append(tableName).append(" SET ");
+            StringBuilder sql = new StringBuilder("UPDATE public.").append(tableName).append(" SET ");
             StringBuilder data = new StringBuilder();
             for (String name : newValue.getNames()) {
                 if (data.length() > 0) {
                     data.append(", ");
                 }
-                data.append(name).append(" = ").append(newValue.get(name));
+                data.append(name)
+                        .append(" = ")
+                        .append("'").append(newValue.get(name)).append("'");
             }
             sql.append(data);
             sql.append(" WHERE id = ").append(id);
+
             stmt.executeUpdate(sql.toString());
             stmt.close();
         } catch (SQLException e) {
@@ -147,14 +150,16 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public Set<String> getTableColumns(String tableName) {
-        Set<String> result = new HashSet<>();
+        Set<String> result = new LinkedHashSet<>();
         try {
             stmt = connection.createStatement();
-            ResultSetMetaData rs = connection.getMetaData().getTables(null, null, tableName, null).getMetaData();
-            int size = rs.getColumnCount();
-            for (int i = 0; i < size; i++) {
-                result.add(rs.getColumnName(i));
+            rs = stmt.executeQuery("SELECT column_name FROM information_schema.columns " +
+                    "WHERE table_schema='public' AND table_name = '" + tableName + "'");
+            while (rs.next()) {
+
+                result.add(rs.getString("column_name"));
             }
+            rs.close();
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();

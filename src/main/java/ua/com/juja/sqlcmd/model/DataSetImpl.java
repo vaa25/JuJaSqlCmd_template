@@ -3,7 +3,7 @@ package ua.com.juja.sqlcmd.model;
 import java.util.*;
 
 public class DataSetImpl implements DataSet {
-    private Map<String, Object> dataset = new HashMap<>();
+    private Map<String, Object> dataset = new LinkedHashMap<>();
 
     public void put(String name, Object value) {
         dataset.put(name, value);
