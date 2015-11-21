@@ -24,8 +24,10 @@ public class MainController {
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password");
         String readed;
         while ((readed = view.read()) != null) {
+            boolean unsupported = true;
             for (Command command : commands) {
                 if (command.canProcess(readed)) {
+                    unsupported = false;
                     try {
                         command.process(readed);
                     } catch (ExitException e) {
@@ -34,12 +36,24 @@ public class MainController {
                         view.write("Неудача! по причине: " + e.getMessage());
                         view.write("Повтори попытку.");
                     } catch (ConnectionException e) {
-                        view.write("Вы не можете пользоваться командой '" + readed +
-                                "' пока не подключитесь с помощью комманды connect|databaseName|userName|password");
+                        view.write(getConnectedButUnsupportedMessage(readed));
                     }
-                    view.write("Введи команду (или help для помощи):");
+
                 }
             }
+            if (unsupported) {
+                if (manager.isConnected()) {
+                    view.write("Несуществующая команда: " + readed);
+                } else {
+                    view.write(getConnectedButUnsupportedMessage(readed));
+                }
+            }
+            view.write("Введи команду (или help для помощи):");
         }
+    }
+
+    private String getConnectedButUnsupportedMessage(String readed) {
+        return "Вы не можете пользоваться командой '" + readed +
+                "' пока не подключитесь с помощью комманды connect|databaseName|userName|password";
     }
 }
