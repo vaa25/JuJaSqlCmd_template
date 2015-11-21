@@ -8,9 +8,13 @@ import ua.com.juja.sqlcmd.view.View;
 public class Help implements Command {
 
     private View view;
-
+    private Command[] commands;
     public Help(View view) {
         this.view = view;
+    }
+
+    public void setCommands(Command[] commands) {
+        this.commands = commands;
     }
 
     @Override
@@ -19,29 +23,12 @@ public class Help implements Command {
     }
 
     @Override
-    public void process(String command) {
+    public void process(String string) {
         view.write("Существующие команды:");
-
-        view.write("\tconnect|databaseName|userName|password");
-        view.write("\t\tдля подключения к базе данных, с которой будем работать");
-
-        view.write("\ttables");
-        view.write("\t\tдля получения списка всех таблиц базы, к которой подключились");
-
-        view.write("\tclear|tableName");
-        view.write("\t\tдля очистки всей таблицы");
-
-        view.write("\tcreate|tableName|column1|value1|column2|value2|...|columnN|valueN");
-        view.write("\t\tдля создания записи в таблице");
-
-        view.write("\tfind|tableName");
-        view.write("\t\tдля получения содержимого таблицы 'tableName'");
-
-        view.write("\thelp");
-        view.write("\t\tдля вывода этого списка на экран");
-
-        view.write("\texit");
-        view.write("\t\tдля выхода из программы");
+        for (Command command : commands) {
+            view.write("\t" + command.format());
+            view.write("\t\t" + command.description());
+        }
     }
 
     @Override
@@ -51,6 +38,6 @@ public class Help implements Command {
 
     @Override
     public String description() {
-        return "Список команд";
+        return "для вывода этого списка на экран";
     }
 }

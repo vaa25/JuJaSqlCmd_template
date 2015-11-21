@@ -51,6 +51,6 @@ public class Create implements Command {
 
     @Override
     public String description() {
-        return "для получения списка всех таблиц базы, к которой подключились";
+        return "для создания записи в таблице";
     }
 }

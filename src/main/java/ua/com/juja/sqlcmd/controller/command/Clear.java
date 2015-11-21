@@ -39,6 +39,6 @@ public class Clear implements Command {
 
     @Override
     public String description() {
-        return "Очищает указанную таблицу";
+        return "для очистки всей таблицы";
     }
 }

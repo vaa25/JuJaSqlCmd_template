@@ -31,6 +31,6 @@ public class Exit implements Command {
 
     @Override
     public String description() {
-        return "Завершает работу программы";
+        return "для выхода из программы";
     }
 }

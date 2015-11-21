@@ -33,11 +33,11 @@ public class Connect implements Command {
 
     @Override
     public String format() {
-        return "connect|database|userName|password";
+        return "connect|databaseName|userName|password";
     }
 
     @Override
     public String description() {
-        return "для получения списка всех таблиц базы, к которой подключились";
+        return "для подключения к базе данных, с которой будем работать";
     }
 }

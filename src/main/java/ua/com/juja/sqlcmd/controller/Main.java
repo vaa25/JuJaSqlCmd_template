@@ -13,19 +13,21 @@ public class Main {
 
     public static void main(String[] args) {
         View view = new Console();
-//        DatabaseManager manager = new InMemoryDatabaseManager();
         DatabaseManager manager = new JDBCDatabaseManager();
 
-        MainController controller = new MainController(view, manager, new Command[]{
-                new Help(view),
-                new Exit(view),
-                new Clear(manager, view),
-                new Tables(manager, view),
+        Help help = new Help(view);
+        Command[] commands = new Command[]{
                 new Connect(manager, view),
+                new Tables(manager, view),
+                new Clear(manager, view),
                 new Create(manager, view),
-                new Find(manager, view)
+                new Find(manager, view),
+                help,
+                new Exit(view)
 
-        });
+        };
+        help.setCommands(commands);
+        MainController controller = new MainController(view, manager, commands);
         controller.run();
     }
 }
