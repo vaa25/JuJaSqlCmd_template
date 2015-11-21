@@ -30,8 +30,10 @@ public class Create implements Command {
             throw new IllegalArgumentException("Должно быть четное количество параметров в формате '" + format() + "', а ты прислал: '" + command + "'");
         }
 
-        manager.create(data[1], extractDataSet(data));
-        view.write("Успех!");
+        DataSet dataSet = extractDataSet(data);
+        manager.create(data[1], dataSet);
+        view.write("Запись {names:" + dataSet.getNames() + ", values:" + dataSet.getValues() + "} была успешно создана в таблице '" + data[1] + "'.");
+
     }
 
     private DataSet extractDataSet(String[] data) {
