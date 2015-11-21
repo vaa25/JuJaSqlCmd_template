@@ -29,7 +29,7 @@ public class Tables implements Command {
         if (manager.isConnected()) {
             view.write(manager.getTableNames().toString());
         } else {
-            throw new ConnectionException("Вы не можете пользоваться командой 'tables' пока не подключитесь с помощью комманды connect|databaseName|userName|password");
+            throw new ConnectionException();
         }
     }
 

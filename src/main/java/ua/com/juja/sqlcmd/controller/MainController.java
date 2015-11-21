@@ -34,7 +34,8 @@ public class MainController {
                         view.write("Неудача! по причине: " + e.getMessage());
                         view.write("Повтори попытку.");
                     } catch (ConnectionException e) {
-                        view.write(e.getMessage());
+                        view.write("Вы не можете пользоваться командой '" + readed +
+                                "' пока не подключитесь с помощью комманды connect|databaseName|userName|password");
                     }
                     view.write("Введи команду (или help для помощи):");
                 }
