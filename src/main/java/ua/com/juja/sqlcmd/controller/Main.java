@@ -1,9 +1,6 @@
 package ua.com.juja.sqlcmd.controller;
 
-import ua.com.juja.sqlcmd.controller.command.Clear;
-import ua.com.juja.sqlcmd.controller.command.Command;
-import ua.com.juja.sqlcmd.controller.command.Exit;
-import ua.com.juja.sqlcmd.controller.command.Help;
+import ua.com.juja.sqlcmd.controller.command.*;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.JDBCDatabaseManager;
 import ua.com.juja.sqlcmd.view.Console;
@@ -16,12 +13,16 @@ public class Main {
 
     public static void main(String[] args) {
         View view = new Console();
+//        DatabaseManager manager = new InMemoryDatabaseManager();
         DatabaseManager manager = new JDBCDatabaseManager();
 
         MainController controller = new MainController(view, manager, new Command[]{
                 new Help(view),
                 new Exit(view),
-                new Clear(manager, view)
+                new Clear(manager, view),
+                new Tables(manager, view),
+                new Connect(manager, view)
+
         });
         controller.run();
     }

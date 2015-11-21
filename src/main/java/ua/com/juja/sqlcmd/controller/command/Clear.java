@@ -31,4 +31,14 @@ public class Clear implements Command {
 
         view.write(String.format("Таблица %s была успешно очищена.", data[1]));
     }
+
+    @Override
+    public String format() {
+        return "clear|tableName";
+    }
+
+    @Override
+    public String description() {
+        return "Очищает указанную таблицу";
+    }
 }

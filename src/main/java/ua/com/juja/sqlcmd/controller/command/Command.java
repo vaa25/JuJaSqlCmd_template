@@ -10,6 +10,7 @@ public interface Command {
     void process(String command);
 
 //    TODO выделить новым методом интерфейса Command формат команды и описание, которое выводит help
-//    String format();
-//    String description();
+String format();
+
+    String description();
 }

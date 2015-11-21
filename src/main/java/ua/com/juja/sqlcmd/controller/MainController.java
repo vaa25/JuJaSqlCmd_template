@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.controller;
 
 import ua.com.juja.sqlcmd.controller.command.Command;
+import ua.com.juja.sqlcmd.controller.command.ConnectionException;
 import ua.com.juja.sqlcmd.controller.command.ExitException;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
@@ -27,10 +28,15 @@ public class MainController {
                 if (command.canProcess(readed)) {
                     try {
                         command.process(readed);
-                        view.write("Введи команду (или help для помощи):");
                     } catch (ExitException e) {
                         return;
+                    } catch (IllegalArgumentException e) {
+                        view.write("Неудача! по причине: " + e.getMessage());
+                        view.write("Повтори попытку.");
+                    } catch (ConnectionException e) {
+                        view.write(e.getMessage());
                     }
+                    view.write("Введи команду (или help для помощи):");
                 }
             }
         }

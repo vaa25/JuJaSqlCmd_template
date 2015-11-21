@@ -43,4 +43,14 @@ public class Help implements Command {
         view.write("\texit");
         view.write("\t\tдля выхода из программы");
     }
+
+    @Override
+    public String format() {
+        return "help";
+    }
+
+    @Override
+    public String description() {
+        return "Список команд";
+    }
 }
