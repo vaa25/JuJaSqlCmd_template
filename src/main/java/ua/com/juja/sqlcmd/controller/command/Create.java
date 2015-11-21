@@ -1,0 +1,54 @@
+package ua.com.juja.sqlcmd.controller.command;
+
+import ua.com.juja.sqlcmd.model.DataSet;
+import ua.com.juja.sqlcmd.model.DataSetImpl;
+import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.view.View;
+
+/**
+ * Created by vaa25 on 19.11.2015.
+ */
+public class Create implements Command {
+    private final DatabaseManager manager;
+    private final View view;
+
+    public Create(DatabaseManager manager, View view) {
+
+        this.manager = manager;
+        this.view = view;
+    }
+
+    @Override
+    public boolean canProcess(String command) {
+        return command.startsWith("create|");
+    }
+
+    @Override
+    public void process(String command) {
+        String[] data = command.split("\\|");
+        if (data.length % 2 != 0) {
+            throw new IllegalArgumentException("Должно быть четное количество параметров в формате '" + format() + "', а ты прислал: '" + command + "'");
+        }
+
+        manager.create(data[1], extractDataSet(data));
+        view.write("Успех!");
+    }
+
+    private DataSet extractDataSet(String[] data) {
+        DataSet result = new DataSetImpl();
+        for (int i = 2; i < data.length; i += 2) {
+            result.put(data[i], data[i + 1]);
+        }
+        return result;
+    }
+
+    @Override
+    public String format() {
+        return "create|tableName|column1|value1|column2|value2|...|columnN|valueN";
+    }
+
+    @Override
+    public String description() {
+        return "для получения списка всех таблиц базы, к которой подключились";
+    }
+}

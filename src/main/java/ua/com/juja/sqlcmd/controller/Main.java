@@ -21,7 +21,8 @@ public class Main {
                 new Exit(view),
                 new Clear(manager, view),
                 new Tables(manager, view),
-                new Connect(manager, view)
+                new Connect(manager, view),
+                new Create(manager, view)
 
         });
         controller.run();
