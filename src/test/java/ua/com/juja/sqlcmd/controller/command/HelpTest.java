@@ -2,15 +2,13 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import ua.com.juja.sqlcmd.view.View;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by oleksandr.baglai on 01.09.2015.
@@ -69,7 +67,7 @@ public class HelpTest {
         command.process("help");
 
         // then
-        Mockito.verify(view, times(15)).write(any(String.class));
+        verify(view, times(15)).write(any(String.class));
     }
 
     @Test
