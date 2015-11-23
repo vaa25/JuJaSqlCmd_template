@@ -5,8 +5,10 @@ import org.junit.Test;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -79,5 +81,15 @@ public class ClearTest {
             // then
             assertEquals("Формат команды 'clear|tableName', а ты ввел: clear|table|qwe", e.getMessage());
         }
+    }
+
+    @Test
+    public void testFormat() throws Exception {
+        assertEquals("clear|tableName", command.format());
+    }
+
+    @Test
+    public void testDescription() throws Exception {
+        assertEquals("для очистки всей таблицы", command.description());
     }
 }
