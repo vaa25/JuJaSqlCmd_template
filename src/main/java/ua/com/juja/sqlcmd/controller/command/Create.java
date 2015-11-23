@@ -30,7 +30,7 @@ public class Create implements Command {
             throw new IllegalArgumentException("Должно быть четное количество параметров в формате '" + format() + "', а ты прислал: '" + command + "'");
         }
         if (!manager.isConnected()) {
-            throw new ConnectionException();
+            throw new ConnectionException(command);
         }
         DataSet dataSet = extractDataSet(data);
         manager.create(data[1], dataSet);

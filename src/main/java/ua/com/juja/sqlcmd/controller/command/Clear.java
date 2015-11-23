@@ -28,7 +28,7 @@ public class Clear implements Command {
             throw new IllegalArgumentException("Формат команды 'clear|tableName', а ты ввел: " + command);
         }
         if (!manager.isConnected()) {
-            throw new ConnectionException();
+            throw new ConnectionException(command);
         }
         manager.clear(data[1]);
 

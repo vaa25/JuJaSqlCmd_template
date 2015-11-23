@@ -29,7 +29,7 @@ public class Tables implements Command {
         if (manager.isConnected()) {
             view.write(manager.getTableNames().toString());
         } else {
-            throw new ConnectionException();
+            throw new ConnectionException(command);
         }
     }
 

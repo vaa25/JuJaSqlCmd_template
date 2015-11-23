@@ -36,7 +36,7 @@ public class MainController {
                         view.write("Неудача! по причине: " + e.getMessage());
                         view.write("Повтори попытку.");
                     } catch (ConnectionException e) {
-                        view.write(getConnectedButUnsupportedMessage(readed));
+                        view.write(e.getMessage());
                     }
 
                 }
@@ -45,15 +45,10 @@ public class MainController {
                 if (manager.isConnected()) {
                     view.write("Несуществующая команда: " + readed);
                 } else {
-                    view.write(getConnectedButUnsupportedMessage(readed));
+                    view.write(new ConnectionException(readed).getMessage());
                 }
             }
             view.write("Введи команду (или help для помощи):");
         }
-    }
-
-    private String getConnectedButUnsupportedMessage(String readed) {
-        return "Вы не можете пользоваться командой '" + readed +
-                "' пока не подключитесь с помощью комманды connect|databaseName|userName|password";
     }
 }

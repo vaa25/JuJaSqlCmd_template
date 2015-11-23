@@ -32,7 +32,7 @@ public class Find implements Command {
             throw new IllegalArgumentException("Неверно количество параметров разделенных знаком '|', ожидается 2, но есть: " + data.length);
         }
         if (!manager.isConnected()) {
-            throw new ConnectionException();
+            throw new ConnectionException(command);
         }
         Set<String> columnNames = manager.getTableColumns(data[1]);
         List<DataSet> columnDataSets = manager.getTableData(data[1]);
