@@ -28,13 +28,14 @@ public class CreateTest {
         command = new Create(manager, view);
     }
 
-    //    @Test(expected = ConnectionException.class)
-//    public void tryCreateWithoutConnection() {
-//        // given
-//        // when
-//        // then
-//        command.process("create|user|tab1|val1");
-//    }
+    @Test(expected = ConnectionException.class)
+    public void tryCreateWithoutConnection() {
+        // given
+        // when
+        // then
+        command.process("create|user|tab1|val1");
+    }
+
     @Test
     public void createSuccessfully() {
         //given

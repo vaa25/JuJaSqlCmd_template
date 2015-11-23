@@ -9,8 +9,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by oleksandr.baglai on 01.09.2015.
@@ -28,9 +27,18 @@ public class ClearTest {
         command = new Clear(manager, view);
     }
 
+    @Test(expected = ConnectionException.class)
+    public void tryCreateWithoutConnection() {
+        // given
+        // when
+        // then
+        command.process("create|user");
+    }
+
     @Test
     public void testClearTable() {
         // given
+        when(manager.isConnected()).thenReturn(true);
 
         // when
         command.process("clear|user");
