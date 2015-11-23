@@ -5,11 +5,14 @@ import org.junit.Test;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.view.View;
 
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by oleksandr.baglai on 01.09.2015.
@@ -35,6 +38,15 @@ public class TablesTest {
         command.process("tables");
     }
 
+    @Test
+    public void getTablesSuccessfully() {
+        when(manager.isConnected()).thenReturn(true);
+        when(manager.getTableNames()).thenReturn(new LinkedHashSet<String>(Arrays.asList("user", "qwe")));
+
+        command.process("tables");
+
+        verify(view).write("[user, qwe]");
+    }
 
     @Test
     public void testCanProcessTablesWithoutParametersString() {
