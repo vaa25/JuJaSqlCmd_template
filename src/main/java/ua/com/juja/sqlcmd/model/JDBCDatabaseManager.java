@@ -46,10 +46,9 @@ public class JDBCDatabaseManager implements DatabaseManager {
     public int getSize(String tableName) {
         int result = 0;
         try {
-            rs = connection.createStatement().executeQuery("SELECT * FROM " + tableName);
-            while (rs.next()) {
-                result++;
-            }
+            rs = connection.createStatement().executeQuery("SELECT COUNT(*) FROM " + tableName);
+            rs.next();
+            result = rs.getInt(1);
             rs.close();
             stmt.close();
         } catch (SQLException e) {
