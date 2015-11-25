@@ -35,11 +35,14 @@ public class UnsupportedTest {
 
     @Test
     public void getTablesSuccessfully() {
+        // given
         when(manager.isConnected()).thenReturn(true);
         String commandString = "unsupported";
 
+        // when
         command.process(commandString);
 
+        // then
         verify(view).write("Несуществующая команда: " + commandString);
     }
 
@@ -70,5 +73,4 @@ public class UnsupportedTest {
     public void testDescription() throws Exception {
         assertEquals("для неподдерживаемых команд", command.description());
     }
-
 }

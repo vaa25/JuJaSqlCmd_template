@@ -7,11 +7,11 @@ import ua.com.juja.sqlcmd.view.View;
  * Created by vaa25 on 19.11.2015.
  */
 public class Tables implements Command {
+
     private final DatabaseManager manager;
     private final View view;
 
     public Tables(DatabaseManager manager, View view) {
-
         this.manager = manager;
         this.view = view;
     }

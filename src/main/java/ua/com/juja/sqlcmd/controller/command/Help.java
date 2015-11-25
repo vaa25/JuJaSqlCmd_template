@@ -9,6 +9,7 @@ public class Help implements Command {
 
     private View view;
     private Command[] commands;
+
     public Help(View view) {
         this.view = view;
     }

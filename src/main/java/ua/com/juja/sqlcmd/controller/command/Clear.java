@@ -31,7 +31,6 @@ public class Clear implements Command {
             throw new ConnectionException(command);
         }
         manager.clear(data[1]);
-
         view.write(String.format("Таблица %s была успешно очищена.", data[1]));
     }
 

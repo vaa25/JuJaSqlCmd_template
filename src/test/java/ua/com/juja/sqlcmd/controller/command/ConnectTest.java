@@ -40,7 +40,10 @@ public class ConnectTest {
 
     @Test
     public void shouldConnectSuccessfully() {
+        //when
         command.process("connect|sqlcmd|postgres|postgres");
+
+        //then
         verify(view).write("Успех!");
     }
 

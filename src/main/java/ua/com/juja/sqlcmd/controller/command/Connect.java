@@ -7,6 +7,7 @@ import ua.com.juja.sqlcmd.view.View;
  * Created by vaa25 on 19.11.2015.
  */
 public class Connect implements Command {
+
     private final DatabaseManager manager;
     private final View view;
 

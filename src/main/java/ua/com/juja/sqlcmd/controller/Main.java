@@ -14,7 +14,6 @@ public class Main {
     public static void main(String[] args) {
         View view = new Console();
         DatabaseManager manager = new JDBCDatabaseManager();
-
         Help help = new Help(view);
         Command[] commands = new Command[]{
                 new Connect(manager, view),
@@ -25,7 +24,6 @@ public class Main {
                 help,
                 new Exit(view),
                 new Unsupported(manager, view)
-
         };
         help.setCommands(commands);
         MainController controller = new MainController(view, commands);

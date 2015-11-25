@@ -11,11 +11,11 @@ import java.util.Set;
  * Created by vaa25 on 19.11.2015.
  */
 public class Find implements Command {
+
     private final DatabaseManager manager;
     private final View view;
 
     public Find(DatabaseManager manager, View view) {
-
         this.manager = manager;
         this.view = view;
     }

@@ -11,7 +11,6 @@ public class MainController {
     private Command[] commands;
 
     public MainController(View view, Command[] commands) {
-
         this.view = view;
         this.commands = commands;
     }

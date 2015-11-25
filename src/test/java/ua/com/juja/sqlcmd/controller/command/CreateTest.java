@@ -49,7 +49,6 @@ public class CreateTest {
         verify(view).write("Запись {names:[tab1], values:[val1]} была успешно создана в таблице 'user'.");
     }
 
-
     @Test
     public void testCanProcessTablesWithoutParametersString() {
         // when

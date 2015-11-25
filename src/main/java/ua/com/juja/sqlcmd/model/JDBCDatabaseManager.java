@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public class JDBCDatabaseManager implements DatabaseManager {
+
     private Connection connection;
     private ResultSet rs;
     private Statement stmt;
@@ -16,6 +17,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            System.exit(-2);
         }
     }
 

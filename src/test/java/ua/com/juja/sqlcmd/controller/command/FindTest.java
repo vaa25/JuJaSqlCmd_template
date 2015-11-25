@@ -65,9 +65,7 @@ public class FindTest {
                 "|val11|val21|\r\n" +
                 "|val12|val22|\r\n" +
                 "--------------------");
-
     }
-
 
     @Test
     public void testCanProcessTablesWithoutParametersString() {

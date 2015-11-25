@@ -34,7 +34,6 @@ public class HelpTest {
         };
         help.setCommands(commands);
         command = help;
-
     }
 
     @Test
