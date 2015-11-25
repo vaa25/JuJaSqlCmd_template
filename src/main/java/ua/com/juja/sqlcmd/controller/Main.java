@@ -28,7 +28,7 @@ public class Main {
 
         };
         help.setCommands(commands);
-        MainController controller = new MainController(view, manager, commands);
+        MainController controller = new MainController(view, commands);
         controller.run();
     }
 }
