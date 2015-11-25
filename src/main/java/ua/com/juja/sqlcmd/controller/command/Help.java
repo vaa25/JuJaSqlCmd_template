@@ -26,8 +26,10 @@ public class Help implements Command {
     public void process(String string) {
         view.write("Существующие команды:");
         for (Command command : commands) {
-            view.write("\t" + command.format());
-            view.write("\t\t" + command.description());
+            if (!(command instanceof Unsupported)) {
+                view.write("\t" + command.format());
+                view.write("\t\t" + command.description());
+            }
         }
     }
 

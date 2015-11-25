@@ -24,10 +24,8 @@ public class MainController {
                 "Введи, пожалуйста имя базы данных, имя пользователя и пароль в формате: connect|database|userName|password");
         String readed;
         while ((readed = view.read()) != null) {
-            boolean unsupported = true;
             for (Command command : commands) {
                 if (command.canProcess(readed)) {
-                    unsupported = false;
                     try {
                         command.process(readed);
                     } catch (ExitException e) {
@@ -38,14 +36,7 @@ public class MainController {
                     } catch (ConnectionException e) {
                         view.write(e.getMessage());
                     }
-
-                }
-            }
-            if (unsupported) {
-                if (manager.isConnected()) {
-                    view.write("Несуществующая команда: " + readed);
-                } else {
-                    view.write(new ConnectionException(readed).getMessage());
+                    break;
                 }
             }
             view.write("Введи команду (или help для помощи):");

@@ -23,7 +23,8 @@ public class Main {
                 new Create(manager, view),
                 new Find(manager, view),
                 help,
-                new Exit(view)
+                new Exit(view),
+                new Unsupported(manager, view)
 
         };
         help.setCommands(commands);
