@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.service;
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.util.Util;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,11 +19,17 @@ public class ServiceImpl implements Service {
 
     @Override
     public List<String> commandList() {
-        return Arrays.asList("help", "connect", "menu");
+        return Arrays.asList("help", "connect", "clear", "menu");
     }
 
     @Override
     public void connect(String dbname, String username, String password) {
         manager.connect(dbname, username, password);
+    }
+
+    @Override
+    public void clear(String tableName) {
+        Util.checkConnection(manager, "clear " + tableName);
+        manager.clear(tableName);
     }
 }

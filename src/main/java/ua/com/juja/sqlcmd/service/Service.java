@@ -11,4 +11,6 @@ public interface Service {
 
     void connect(String dbname, String username, String password);
 
+    void clear(String tableName);
+
 }

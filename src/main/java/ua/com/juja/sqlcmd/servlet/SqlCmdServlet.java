@@ -33,7 +33,11 @@ public class SqlCmdServlet extends HttpServlet {
             req.getRequestDispatcher("help.jsp").forward(req, resp);
         } else if ("/connect".equals(action)) {
             req.getRequestDispatcher("connect.jsp").forward(req, resp);
+        } else if ("/clear".equals(action)) {
+            req.getRequestDispatcher("clear.jsp").forward(req, resp);
         }
+
+
     }
 
     private String getAction(HttpServletRequest req) {
@@ -47,13 +51,22 @@ public class SqlCmdServlet extends HttpServlet {
             String dbname = req.getParameter("dbname");
             String username = req.getParameter("username");
             String password = req.getParameter("password");
-            try {
-                service.connect(dbname, username, password);
-                resp.sendRedirect(resp.encodeRedirectURL("menu"));
-            } catch (Exception e) {
-                req.setAttribute("error", e.getMessage());
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
-            }
+            service.connect(dbname, username, password);
+        } else if ("/clear".equals(action)) {
+            String tableName = req.getParameter("tablename");
+            service.clear(tableName);
+        }
+        resp.sendRedirect(resp.encodeRedirectURL("menu"));
+    }
+
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            super.service(req, resp);
+        } catch (Exception e) {
+            req.setAttribute("error", e.getMessage());
+            req.getRequestDispatcher("error.jsp").forward(req, resp);
         }
     }
+
 }
