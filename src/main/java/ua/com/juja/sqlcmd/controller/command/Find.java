@@ -2,6 +2,7 @@ package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.util.Util;
 import ua.com.juja.sqlcmd.view.View;
 
 import java.util.List;
@@ -31,9 +32,7 @@ public class Find implements Command {
         if (data.length != 2) {
             throw new IllegalArgumentException("Неверно количество параметров разделенных знаком '|', ожидается 2, но есть: " + data.length);
         }
-        if (!manager.isConnected()) {
-            throw new ConnectionException(command);
-        }
+        Util.checkConnection(manager, command);
         Set<String> columnNames = manager.getTableColumns(data[1]);
         List<DataSet> columnDataSets = manager.getTableData(data[1]);
         String delimeter = "--------------------";

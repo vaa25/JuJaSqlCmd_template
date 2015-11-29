@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.util.Util;
 import ua.com.juja.sqlcmd.view.View;
 
 /**
@@ -23,11 +24,8 @@ public class Unsupported implements Command {
 
     @Override
     public void process(String command) {
-        if (manager.isConnected()) {
-            view.write("Несуществующая команда: " + command);
-        } else {
-            throw new ConnectionException(command);
-        }
+        Util.checkConnection(manager, command);
+        view.write("Несуществующая команда: " + command);
     }
 
     @Override

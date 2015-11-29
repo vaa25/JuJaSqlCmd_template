@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.util.Util;
 import ua.com.juja.sqlcmd.view.View;
 
 /**
@@ -27,9 +28,7 @@ public class Clear implements Command {
         if (data.length != 2) {
             throw new IllegalArgumentException("Формат команды 'clear|tableName', а ты ввел: " + command);
         }
-        if (!manager.isConnected()) {
-            throw new ConnectionException(command);
-        }
+        Util.checkConnection(manager, command);
         manager.clear(data[1]);
         view.write(String.format("Таблица %s была успешно очищена.", data[1]));
     }

@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.controller.command;
 
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.util.Util;
 import ua.com.juja.sqlcmd.view.View;
 
 /**
@@ -26,11 +27,13 @@ public class Tables implements Command {
         if (!"tables".equals(command)) {
             throw new IllegalArgumentException("Формат команды '" + format() + "', а ты ввел: " + command);
         }
-        if (manager.isConnected()) {
-            view.write(manager.getTableNames().toString());
-        } else {
-            throw new ConnectionException(command);
-        }
+        Util.checkConnection(manager, command);
+        view.write(manager.getTableNames().toString());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 
     @Override

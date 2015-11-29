@@ -3,6 +3,7 @@ package ua.com.juja.sqlcmd.controller.command;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
+import ua.com.juja.sqlcmd.util.Util;
 import ua.com.juja.sqlcmd.view.View;
 
 /**
@@ -30,9 +31,7 @@ public class Create implements Command {
         if (data.length % 2 != 0) {
             throw new IllegalArgumentException("Должно быть четное количество параметров в формате '" + format() + "', а ты прислал: '" + command + "'");
         }
-        if (!manager.isConnected()) {
-            throw new ConnectionException(command);
-        }
+        Util.checkConnection(manager, command);
         DataSet dataSet = extractDataSet(data);
         manager.create(data[1], dataSet);
         view.write("Запись {names:" + dataSet.getNames() + ", values:" + dataSet.getValues() + "} была успешно создана в таблице '" + data[1] + "'.");
