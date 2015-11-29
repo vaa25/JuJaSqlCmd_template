@@ -16,8 +16,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            System.exit(-2);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -36,8 +35,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             }
             rs.close();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(-2);
+            throw new RuntimeException(e.getMessage(), e);
         }
         return result;
     }
@@ -52,8 +50,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             rs.close();
             stmt.close();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(-2);
+            throw new RuntimeException(e.getMessage(), e);
         }
         return result;
     }
@@ -70,8 +67,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             rs.close();
             stmt.close();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(-2);
+            throw new RuntimeException(e.getMessage(), e);
         }
         return result;
     }
@@ -81,8 +77,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         try {
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database, userName, password);
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(-2);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -93,8 +88,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             stmt.executeUpdate("DELETE FROM public." + tableName + "");
             stmt.close();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(-2);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -119,8 +113,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             stmt.executeUpdate(sql.toString());
             stmt.close();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(-2);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -144,8 +137,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             stmt.executeUpdate(sql.toString());
             stmt.close();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(-2);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -163,8 +155,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
             rs.close();
             stmt.close();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(-2);
+            throw new RuntimeException(e.getMessage(), e);
         }
         return result;
     }
