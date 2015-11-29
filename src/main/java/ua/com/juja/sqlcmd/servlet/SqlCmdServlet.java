@@ -35,6 +35,9 @@ public class SqlCmdServlet extends HttpServlet {
             req.getRequestDispatcher("connect.jsp").forward(req, resp);
         } else if ("/clear".equals(action)) {
             req.getRequestDispatcher("clear.jsp").forward(req, resp);
+        } else if ("/tables".equals(action)) {
+            req.setAttribute("tables", service.tables());
+            req.getRequestDispatcher("tables.jsp").forward(req, resp);
         }
 
 

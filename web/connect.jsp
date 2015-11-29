@@ -9,15 +9,15 @@
     <table>
         <tr>
             <td>Database name</td>
-            <td><input type="text" name="dbname"></td>
+            <td><input type="text" name="dbname" value="test"></td>
         </tr>
         <tr>
             <td>User name</td>
-            <td><input type="text" name="username"></td>
+            <td><input type="text" name="username" value="postgres"></td>
         </tr>
         <tr>
             <td>User password</td>
-            <td><input type="password" name="password"/></td>
+            <td><input type="password" name="password" value="postgres"/></td>
         </tr>
         <tr>
             <td></td>
