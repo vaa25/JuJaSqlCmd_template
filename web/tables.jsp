@@ -5,9 +5,9 @@
     <title>SqlCommand</title>
 </head>
 <body>
-Select table:<br>
+Available tables:<br>
 <c:forEach var="table" items="${tables}">
-    <a href="find/"${table}>${table}</a>
+    ${table}
     <br>
 </c:forEach>
 <br>

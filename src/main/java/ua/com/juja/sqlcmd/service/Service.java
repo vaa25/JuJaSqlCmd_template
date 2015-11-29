@@ -16,4 +16,6 @@ public interface Service {
 
     Set<String> tables();
 
+    String find(String tableName);
+
 }

@@ -38,8 +38,9 @@ public class SqlCmdServlet extends HttpServlet {
         } else if ("/tables".equals(action)) {
             req.setAttribute("tables", service.tables());
             req.getRequestDispatcher("tables.jsp").forward(req, resp);
+        } else if ("/find".equals(action)) {
+            req.getRequestDispatcher("find.jsp").forward(req, resp);
         }
-
 
     }
 
@@ -58,6 +59,11 @@ public class SqlCmdServlet extends HttpServlet {
         } else if ("/clear".equals(action)) {
             String tableName = req.getParameter("tablename");
             service.clear(tableName);
+        } else if ("/find".equals(action)) {
+            String tableName = req.getParameter("tablename");
+            String found = service.find(tableName).replaceAll("\\r\\n", "<br>");
+            req.setAttribute("found", found);
+            req.getRequestDispatcher("found.jsp").forward(req, resp);
         }
         resp.sendRedirect(resp.encodeRedirectURL("menu"));
     }
