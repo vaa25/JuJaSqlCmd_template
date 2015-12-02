@@ -1,11 +1,13 @@
 package ua.com.juja.sqlcmd.service;
 
 import ua.com.juja.sqlcmd.model.DataSet;
+import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.util.Util;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -21,7 +23,7 @@ public class ServiceImpl implements Service {
 
     @Override
     public List<String> commandList() {
-        return Arrays.asList("help", "connect", "clear", "tables", "find", "menu");
+        return Arrays.asList("help", "connect", "clear", "tables", "create", "find", "menu");
     }
 
     @Override
@@ -67,5 +69,25 @@ public class ServiceImpl implements Service {
         }
         builder.append("\r\n").append(delimeter);
         return builder.toString();
+    }
+
+    @Override
+    public Set<String> columnNames(String tableName) {
+        tableName = tableName.trim();
+        Util.checkConnection(manager, "create " + tableName);
+        return manager.getTableColumns(tableName);
+    }
+
+    @Override
+    public void create(String tableName, Map<String, String[]> data) {
+        tableName = tableName.trim();
+        Set<String> columnNames = columnNames(tableName);
+        DataSet dataSet = new DataSetImpl();
+        for (Map.Entry<String, String[]> entry : data.entrySet()) {
+            if (columnNames.contains(entry.getKey())) {
+                dataSet.put(entry.getKey(), entry.getValue()[0]);
+            }
+        }
+        manager.create(tableName, dataSet);
     }
 }

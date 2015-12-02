@@ -1,6 +1,7 @@
 package ua.com.juja.sqlcmd.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,4 +19,7 @@ public interface Service {
 
     String find(String tableName);
 
+    Set<String> columnNames(String tableName);
+
+    void create(String tableName, Map<String, String[]> map);
 }

@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by vaa25 on 29.11.2015.
@@ -40,6 +42,8 @@ public class SqlCmdServlet extends HttpServlet {
             req.getRequestDispatcher("tables.jsp").forward(req, resp);
         } else if ("/find".equals(action)) {
             req.getRequestDispatcher("find.jsp").forward(req, resp);
+        } else if ("/create".equals(action)) {
+            req.getRequestDispatcher("create.jsp").forward(req, resp);
         }
 
     }
@@ -64,6 +68,15 @@ public class SqlCmdServlet extends HttpServlet {
             String found = service.find(tableName).replaceAll("\\r\\n", "<br>");
             req.setAttribute("found", found);
             req.getRequestDispatcher("found.jsp").forward(req, resp);
+        } else if ("/create".equals(action)) {
+            String tableName = req.getParameter("tablename");
+            Set<String> columnNames = service.columnNames(tableName);
+            req.setAttribute("columnnames", columnNames);
+            req.getRequestDispatcher("createRow.jsp").forward(req, resp);
+        } else if ("/createRow".equals(action)) {
+            String tableName = req.getParameter("tablename");
+            Map<String, String[]> data = req.getParameterMap();
+            service.create(tableName, data);
         }
         resp.sendRedirect(resp.encodeRedirectURL("menu"));
     }
