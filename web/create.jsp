@@ -5,48 +5,53 @@
     <title>SqlCmd</title>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
-        function addParameters() {
+        function getColumnNames() {
             $.ajax({
                 type: "POST",
-                url: "/columnnames",
-                data: "tablename=" + $("#tablename").val(),
+                url: document.location.href.substr(0, document.location.href.length - "/create".length) + "/columnnames",
+                data: {"tablename": $("#tablename").val()},
+                dataType: "json",
                 success: function (data) {
-                    console.log(data);
-                    var table = document.getElementById("myTable");
-                    for (var i = 0; i < data.length; i++) {
-                        var row = table.insertRow(i + 1);
-                        var cell1 = row.insertCell(0);
-                        var cell2 = row.insertCell(1);
-                        cell1.innerHTML = data[i];
-                        var input = document.createElement('input');
-                        input.type = "file";
-                        input.name = data[i];
-                        input.type = "text";
-                        cell2.appendChild(input);
-                    }
+                    addColumns(data);
                 }
             })
         }
-        $(function () {
-            $('.buttom').click(function () {
-                $('#form1').submit();
-            });
+        function addColumns(data) {
+            var table = document.getElementById("myTable");
+            for (var i = 0; i < data.length; i++) {
+                var row = table.insertRow(i + 1);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.innerHTML = data[i];
+                var input = document.createElement('input');
+                input.name = data[i];
+                input.type = "text";
+                cell2.appendChild(input);
+            }
+            var form = document.getElementById("form");
+            final = true;
+        }
 
+        var final = false;
+        var form = $('#form');
+        form.submit(function () {
+            return final;
         });
+
     </script>
 </head>
 <body>
 
-<form id="form" onsubmit="return false;">
+<form id="form" action="create" method="post">
     <table id="myTable">
         <tr>
             <td>Table name</td>
-            <td><input type="text" onkeyup="" onchange=addParameters(); id="tablename" name="tablename" value="role">
+            <td><input type="text" onchange=getColumnNames(); id="tablename" name="tablename">
             </td>
         </tr>
         <tr>
             <td></td>
-            <td><input type="submit" value="create" class="buttom"/></td>
+            <td><input type="submit" value="create"/></td>
         </tr>
     </table>
 </form>

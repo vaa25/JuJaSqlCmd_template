@@ -1,9 +1,11 @@
 package ua.com.juja.sqlcmd.servlet;
 
 import com.google.gson.Gson;
+import ua.com.juja.sqlcmd.model.DatabaseManager;
 import ua.com.juja.sqlcmd.model.JDBCDatabaseManager;
 import ua.com.juja.sqlcmd.service.Service;
 import ua.com.juja.sqlcmd.service.ServiceImpl;
+import ua.com.juja.sqlcmd.util.Util;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,10 +20,12 @@ import java.util.Set;
 public class SqlCmdServlet extends HttpServlet {
 
     private Service service;
+    private DatabaseManager manager;
 
     @Override
     public void init() throws ServletException {
-        service = new ServiceImpl(new JDBCDatabaseManager());
+        manager = new JDBCDatabaseManager();
+        service = new ServiceImpl(manager);
     }
 
     @Override
@@ -36,13 +40,17 @@ public class SqlCmdServlet extends HttpServlet {
         } else if ("/connect".equals(action)) {
             req.getRequestDispatcher("connect.jsp").forward(req, resp);
         } else if ("/clear".equals(action)) {
+            Util.checkConnection(manager, "clear");
             req.getRequestDispatcher("clear.jsp").forward(req, resp);
         } else if ("/tables".equals(action)) {
+            Util.checkConnection(manager, "tables");
             req.setAttribute("tables", service.tables());
             req.getRequestDispatcher("tables.jsp").forward(req, resp);
         } else if ("/find".equals(action)) {
+            Util.checkConnection(manager, "find");
             req.getRequestDispatcher("find.jsp").forward(req, resp);
         } else if ("/create".equals(action)) {
+            Util.checkConnection(manager, "create");
             req.getRequestDispatcher("create.jsp").forward(req, resp);
         }
 
@@ -68,11 +76,6 @@ public class SqlCmdServlet extends HttpServlet {
             String found = service.find(tableName).replaceAll("\\r\\n", "<br>");
             req.setAttribute("found", found);
             req.getRequestDispatcher("found.jsp").forward(req, resp);
-//        } else if ("/create".equals(action)) {
-//            String tableName = req.getParameter("tablename");
-//            Set<String> columnNames = service.columnNames(tableName);
-//            req.setAttribute("columnnames", columnNames);
-//            req.getRequestDispatcher("createRow.jsp").forward(req, resp);
         } else if ("/columnnames".equals(action)) {
             String tableName = req.getParameter("tablename");
             Set<String> columnNames = service.columnNames(tableName);
@@ -81,6 +84,9 @@ public class SqlCmdServlet extends HttpServlet {
             resp.setCharacterEncoding("UTF-8");
             resp.getWriter().write(json);
             return;
+        } else if ("/create".equals(action)) {
+            String tableName = req.getParameter("tablename");
+            service.create(tableName, req.getParameterMap());
         }
         resp.sendRedirect(resp.encodeRedirectURL("menu"));
     }

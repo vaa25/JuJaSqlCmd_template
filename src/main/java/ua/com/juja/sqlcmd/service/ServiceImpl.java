@@ -3,7 +3,6 @@ package ua.com.juja.sqlcmd.service;
 import ua.com.juja.sqlcmd.model.DataSet;
 import ua.com.juja.sqlcmd.model.DataSetImpl;
 import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.util.Util;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,19 +36,16 @@ public class ServiceImpl implements Service {
     @Override
     public void clear(String tableName) {
         tableName = tableName.trim();
-        Util.checkConnection(manager, "clear " + tableName);
         manager.clear(tableName);
     }
 
     @Override
     public Set<String> tables() {
-        Util.checkConnection(manager, "tables");
         return manager.getTableNames();
     }
 
     public String find(String tableName) {
         tableName = tableName.trim();
-        Util.checkConnection(manager, "find " + tableName);
         Set<String> columnNames = manager.getTableColumns(tableName);
         List<DataSet> columnDataSets = manager.getTableData(tableName);
         String delimeter = "--------------------";
@@ -74,7 +70,6 @@ public class ServiceImpl implements Service {
     @Override
     public Set<String> columnNames(String tableName) {
         tableName = tableName.trim();
-        Util.checkConnection(manager, "create " + tableName);
         return manager.getTableColumns(tableName);
     }
 
